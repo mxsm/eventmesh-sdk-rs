@@ -15,6 +15,18 @@
  * limitations under the License.
  */
 
-fn main() {
-
-}
+ use std::collections::HashMap;
+ use eventmesh_sdk::http::eventmesh_http_config::HttpConfig;
+ use eventmesh_sdk::http::http_producer::EventMeshMessageHttpProuder;
+ use eventmesh_sdk::messages::EventMeshMessage;
+ 
+ #[tokio::main]
+ async fn main() {
+     let mut  http_config = HttpConfig::new();
+     http_config.idc = String::from("mxsm");
+     http_config.sys = String::from("mxsm");
+     let prouder = EventMeshMessageHttpProuder::new(&http_config).unwrap();
+     let hash_map = HashMap::with_capacity(10);
+     let message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
+     prouder.publish(message).await.unwrap();
+ }

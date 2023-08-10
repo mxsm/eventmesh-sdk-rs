@@ -14,25 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
- pub mod eventmesh_http_config;
- pub mod http_producer;
- 
- mod protocol_version{
-     use  std::fmt::Display;
- 
-     #[derive(Debug, Clone, Copy)]
-     pub(super) enum ProtocolVersion {
-         V1,
-         V2,
-     }
- 
-     impl Display for ProtocolVersion {
-         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-             match self {
-                 ProtocolVersion::V1 => write!(f, "1.0"),
-                 ProtocolVersion::V2 => write!(f, "2.0"),
-             }
-         }
-     }
- }
+pub const ENV: &str = "env";
+pub const IDC: &str = "idc";
+pub const SYS: &str = "sys";
+pub const PID: &str = "pid";
+pub const IP: &str = "ip";
+pub const USERNAME: &str = "username";
+pub const PASSWD: &str = "passwd";
+pub const BIZ_SEQ_NO: &str = "bizseqno";
+pub const UNIQUE_ID: &str = "uniqueid";
+pub const PRODUCER_GROUP: &str = "producergroup";
+pub const TOKEN: &str = "token";
+pub const REQUEST_CODE: &str = "code";
+pub const REQUEST_URI: &str = "uri";
+pub const LANGUAGE: &str = "language";
+pub const VERSION: &str = "version";
+pub const PROTOCOL_TYPE: &str = "protocoltype";
+pub const PROTOCOL_VERSION: &str = "protocolversion";
+pub const PROTOCOL_DESC: &str = "protocoldesc";
+pub const CONTENT_TYPE: &str = "contenttype";
+pub const EM_MESSAGE_PROTOCOL: &str = "eventmeshmessage";
