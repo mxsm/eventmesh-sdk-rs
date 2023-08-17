@@ -1,11 +1,15 @@
 [package]
-name = "eventmesh-sdk"
-version = "0.1.0"
+name = "eventmesh"
+version = "1.9.0"
 edition = "2021"
-rust-version = "1.71"
+rust-version = "1.70"
 authors = [
     "mxsm <mxsm@apache.org>"
 ]
+description="Rust client for Apache EventMesh"
+license = "Apache-2.0"
+keywords = ["EventMesh", "SDK","client"]
+readme="./README.md"
 
 [dependencies]
 anyhow = "1.0"
