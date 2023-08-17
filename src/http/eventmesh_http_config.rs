@@ -37,6 +37,7 @@
  }
  
  impl HttpConfig {
+     ///new HttpConfig
      pub fn new() -> Self{
          Self::default()
      }

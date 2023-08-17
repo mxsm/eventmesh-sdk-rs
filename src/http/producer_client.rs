@@ -15,18 +15,10 @@
  * limitations under the License.
  */
 
- use std::collections::HashMap;
- use eventmesh::http::eventmesh_http_config::HttpConfig;
- use eventmesh::http::http_producer::EventMeshMessageHttpProuder;
- use eventmesh::messages::EventMeshMessage;
- 
- #[tokio::main]
- async fn main() {
-/*     let mut  http_config = HttpConfig::new();
-     http_config.idc = String::from("mxsm");
-     http_config.sys = String::from("mxsm");
-     let prouder = EventMeshMessageHttpProuder::new(&http_config).unwrap();
-     let hash_map = HashMap::with_capacity(10);
-     let message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
-     prouder.publish(message).await.unwrap();*/
- }
+pub trait Producer<T> {
+    async fn publish(&self,msg: &T);
+
+    async fn request(&self,msg: &T, time_out: u32) -> anyhow::Result<T>;
+
+    async fn request_callback(&self,msg: &T, time_out: u32, rr_call_back: &dyn Fn(anyhow::Result<T>)) -> anyhow::Result<()>;
+}
