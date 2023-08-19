@@ -15,5 +15,6 @@
  * limitations under the License.
  */
 pub mod http;
-pub mod messages;
+pub mod model;
+pub mod config;
 mod protocol_key;

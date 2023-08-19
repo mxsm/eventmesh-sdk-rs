@@ -15,10 +15,4 @@
  * limitations under the License.
  */
 
-pub trait Producer<T> {
-    async fn publish(&self,msg: &T);
-
-    async fn request(&self,msg: &T, time_out: u32) -> anyhow::Result<T>;
-
-    async fn request_callback(&self,msg: &T, time_out: u32, rr_call_back: &dyn Fn(anyhow::Result<T>)) -> anyhow::Result<()>;
-}
+pub mod eventmesh_message;

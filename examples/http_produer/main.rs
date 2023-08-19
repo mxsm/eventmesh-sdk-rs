@@ -14,19 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use std::collections::HashMap;
+use std::process;
+use anyhow::Result;
+use eventmesh::config::EventMeshHttpClientConfig;
+use eventmesh::http::producer::{EventMeshHttpProducer};
+use eventmesh::model::eventmesh_message::EventMeshMessage;
 
- use std::collections::HashMap;
- use eventmesh::http::eventmesh_http_config::HttpConfig;
- use eventmesh::http::http_producer::EventMeshMessageHttpProuder;
- use eventmesh::messages::EventMeshMessage;
- 
- #[tokio::main]
- async fn main() {
-/*     let mut  http_config = HttpConfig::new();
-     http_config.idc = String::from("mxsm");
-     http_config.sys = String::from("mxsm");
-     let prouder = EventMeshMessageHttpProuder::new(&http_config).unwrap();
-     let hash_map = HashMap::with_capacity(10);
-     let message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
-     prouder.publish(message).await.unwrap();*/
- }
+#[tokio::main]
+async fn main() -> Result<()> {
+    let mut config = EventMeshHttpClientConfig::new();
+    config.env = String::from("env");
+    config.idc = String::from("idc");
+    config.sys = String::from("1234");
+    config.pid = process::id().to_string();
+    let http_producer = EventMeshHttpProducer::new(&config)?;
+    let hash_map = HashMap::with_capacity(10);
+    let mut message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
+    http_producer.publish(&message).await?;
+    Ok(())
+}
