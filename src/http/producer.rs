@@ -56,7 +56,6 @@ impl EventMeshHttpProducer {
 
     pub async fn publish(&self, message: &EventMeshMessage) -> Result<()> {
 
-        println!("11111");
         let response = self.client.post(&self.event_mesh_url)
             .header(ProtocolKey::REQUEST_CODE, RequestCode::get_code(&(RequestCode::MsgSendAsync)).to_string())
             .form(message)
