@@ -162,7 +162,7 @@ impl RequestCode {
             301 => RequestCode::ReplyMessage,
             603 => RequestCode::AdminMetrics,
             601 => RequestCode::AdminShutdown,
-            _ => panic!("Invalid request code"),
+            _ => RequestCode::Unknown,
         }
     }
 

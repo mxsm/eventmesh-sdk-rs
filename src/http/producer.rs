@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 #![allow(unused)]
+
 use anyhow::Result;
 use http::{header, HeaderValue};
 use crate::config::EventMeshHttpClientConfig;
@@ -53,17 +54,13 @@ impl EventMeshHttpProducer {
 }
 
 impl EventMeshHttpProducer {
-
     pub async fn publish(&self, message: &EventMeshMessage) -> Result<()> {
-
         let response = self.client.post(&self.event_mesh_url)
             .header(ProtocolKey::REQUEST_CODE, RequestCode::get_code(&(RequestCode::MsgSendAsync)).to_string())
             .form(message)
             .send()
             .await?;
-        println!("{:?}", response);
         let result = response.json::<EventMeshResponse>().await?;
-        println!("{:?}", result);
         Ok(())
     }
 
