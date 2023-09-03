@@ -24,12 +24,11 @@ use crate::protocol_key::{ClientInstanceKey, ProtocolConstant, ProtocolKey, Prot
 
 pub struct EventMeshHttpProducer {
     client: reqwest::Client,
-    producer_group: String,
-    event_mesh_url: String,
+    client_config: EventMeshHttpClientConfig
 }
 
 impl EventMeshHttpProducer {
-    pub fn new(config: &EventMeshHttpClientConfig) -> Result<Self> {
+    pub fn new(config: EventMeshHttpClientConfig) -> Result<Self> {
         let mut header_map = header::HeaderMap::with_capacity(16);
         header_map.insert(ClientInstanceKey::IDC.key(), HeaderValue::from_str(&config.idc)?);
         header_map.insert(ClientInstanceKey::IP.key(), HeaderValue::from_str(&config.ip)?);
@@ -47,15 +46,14 @@ impl EventMeshHttpProducer {
 
         Ok(EventMeshHttpProducer {
             client,
-            producer_group: config.producer_group.clone(),
-            event_mesh_url: config.lite_event_mesh_addr.clone(),
+            client_config: config,
         })
     }
 }
 
 impl EventMeshHttpProducer {
     pub async fn publish(&self, message: &EventMeshMessage) -> Result<()> {
-        let response = self.client.post(&self.event_mesh_url)
+        let response = self.client.post(&self.client_config.lite_event_mesh_addr)
             .header(ProtocolKey::REQUEST_CODE, RequestCode::get_code(&(RequestCode::MsgSendAsync)).to_string())
             .form(message)
             .send()

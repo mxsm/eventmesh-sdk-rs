@@ -16,6 +16,7 @@
  */
 
 use std::collections::HashMap;
+use std::fmt::{Display, Formatter};
 use std::time::SystemTime;
 use serde::{Deserialize, Serialize};
 
@@ -44,6 +45,13 @@ pub struct EventMeshResponse {
     pub ret_code: i32,
     #[serde(rename="retMsg")]
     pub ret_msg: String,
+}
+
+impl Display for EventMeshResponse {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        println!("{}", self.ret_code);
+        write!(f,"EventMeshResponse=[res_time={},ret_code={},ret_msg={}]",self.ret_code,self.ret_code,self.ret_msg)
+    }
 }
 
 

@@ -28,7 +28,7 @@ async fn main() -> Result<()> {
     config.idc = String::from("idc");
     config.sys = String::from("1234");
     config.pid = process::id().to_string();
-    let http_producer = EventMeshHttpProducer::new(&config)?;
+    let http_producer = EventMeshHttpProducer::new(config)?;
     let hash_map = HashMap::with_capacity(10);
     let mut message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
     http_producer.publish(&message).await?;
