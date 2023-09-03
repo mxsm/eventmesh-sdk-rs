@@ -14,8 +14,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-pub mod http;
-pub mod model;
-pub mod config;
-mod protocol_key;
-mod error;
+
+use std::fmt::{Debug, Display, Formatter};
+use thiserror;
+use std::error::Error;
+
+#[derive(Debug, Eq, PartialEq, thiserror::Error)]
+pub enum ErrorType {}
+
+
+pub struct HttpClientError {
+    pub(crate) error_type: ErrorType,
+    pub(crate) message: String,
+    pub(crate) source: Option<anyhow::Error>,
+}
+
+impl HttpClientError {
+
+}
+
+
+impl Error for HttpClientError {}
+
+impl Display for HttpClientError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}
+
+impl Debug for HttpClientError {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
+    }
+}

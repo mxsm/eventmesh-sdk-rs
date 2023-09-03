@@ -16,6 +16,7 @@
  */
 #![allow(unused)]
 
+use std::time::Duration;
 use anyhow::Result;
 use http::{header, HeaderValue};
 use crate::config::EventMeshHttpClientConfig;
@@ -53,11 +54,14 @@ impl EventMeshHttpProducer {
 
 impl EventMeshHttpProducer {
     pub async fn publish(&self, message: &EventMeshMessage) -> Result<()> {
-        let response = self.client.post(&self.client_config.lite_event_mesh_addr)
+        let response = self.client
+            .post(&self.client_config.lite_event_mesh_addr)
+            .timeout(Duration::from_secs(3))
             .header(ProtocolKey::REQUEST_CODE, RequestCode::get_code(&(RequestCode::MsgSendAsync)).to_string())
             .form(message)
             .send()
-            .await?;
+            .await;
+
         let result = response.json::<EventMeshResponse>().await?;
         Ok(())
     }
