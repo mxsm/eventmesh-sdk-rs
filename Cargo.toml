@@ -6,10 +6,14 @@ rust-version = "1.70"
 authors = [
     "mxsm <mxsm@apache.org>"
 ]
-description="Rust client for Apache EventMesh"
+description = "Rust client for Apache EventMesh"
 license = "Apache-2.0"
-keywords = ["EventMesh", "SDK","client"]
-readme="./README.md"
+keywords = ["EventMesh", "SDK", "client"]
+readme = "./README.md"
+
+[features]
+default = ["async"]
+async = []
 
 [dependencies]
 anyhow = "1.0"

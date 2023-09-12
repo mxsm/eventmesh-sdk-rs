@@ -15,35 +15,56 @@
  * limitations under the License.
  */
 
+use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use thiserror;
-use std::error::Error;
 
 #[derive(Debug, Eq, PartialEq, thiserror::Error)]
-pub enum ErrorType {}
+pub enum ErrorType {
+    #[error("Http request error")]
+    HttpRequestError,
 
+    #[error("Json parse error")]
+    JsonParseError,
 
-pub struct HttpClientError {
-    pub(crate) error_type: ErrorType,
-    pub(crate) message: String,
+    #[error("Event mesh handle error, code:{0}")]
+    EventMeshRespError(i32),
+}
+
+#[derive(Debug)]
+pub struct EventMeshError {
+    pub(crate) error_type: Option<ErrorType>,
+    pub(crate) message: Option<String>,
     pub(crate) source: Option<anyhow::Error>,
 }
 
-impl HttpClientError {
-
-}
-
-
-impl Error for HttpClientError {}
-
-impl Display for HttpClientError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+impl Default for EventMeshError {
+    fn default() -> Self {
+        Self {
+            error_type: None,
+            message: None,
+            source: None,
+        }
     }
 }
 
-impl Debug for HttpClientError {
+impl EventMeshError {}
+
+impl Error for EventMeshError {}
+
+impl Display for EventMeshError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+        if let Some(err_type) = &self.error_type {
+            write!(f, "{}", err_type)?;
+        }
+
+        if let Some(message) = &self.message {
+            write!(f, " message = {}", message)?;
+        }
+
+        if let Some(source) = &self.source {
+            write!(f, " source = {source}")?;
+        }
+        Ok(())
     }
 }
