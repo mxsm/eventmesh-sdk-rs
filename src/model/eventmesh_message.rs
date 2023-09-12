@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 use std::time::SystemTime;
-use serde::{Deserialize, Serialize};
 
-#[derive(Debug,Clone,Deserialize,Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct EventMeshMessage {
     #[serde(rename = "bizseqno")]
     pub biz_seq_no: String,
@@ -30,42 +30,52 @@ pub struct EventMeshMessage {
     pub content: String,
     pub ttl: String,
     #[serde(rename = "producergroup")]
-    pub producer_group:String,
+    pub producer_group: String,
     #[serde(flatten)]
     pub prop: HashMap<String, String>,
     #[serde(rename = "createTime")]
     pub create_time: i64,
 }
 
-#[derive(Debug,Clone,Deserialize,Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct EventMeshResponse {
-    #[serde(rename="resTime")]
+    #[serde(rename = "resTime")]
     pub res_time: i64,
-    #[serde(rename="retCode")]
+    #[serde(rename = "retCode")]
     pub ret_code: i32,
-    #[serde(rename="retMsg")]
+    #[serde(rename = "retMsg")]
     pub ret_msg: String,
 }
 
 impl Display for EventMeshResponse {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         println!("{}", self.ret_code);
-        write!(f,"EventMeshResponse=[res_time={},ret_code={},ret_msg={}]",self.ret_code,self.ret_code,self.ret_msg)
+        write!(
+            f,
+            "EventMeshResponse=[res_time={},ret_code={},ret_msg={}]",
+            self.ret_code, self.ret_code, self.ret_msg
+        )
     }
 }
 
-
 impl EventMeshMessage {
-    pub fn new(biz_seq_no: &str, unique_id: &str, topic: &str, content: &str, prop: HashMap<String, String>) -> Self {
+    pub fn new(
+        biz_seq_no: &str,
+        unique_id: &str,
+        topic: &str,
+        content: &str,
+        prop: HashMap<String, String>,
+    ) -> Self {
         Self {
             biz_seq_no: biz_seq_no.to_string(),
             unique_id: unique_id.to_string(),
             topic: topic.to_string(),
             content: content.to_string(),
-            ttl:"10".to_string(),
+            ttl: "10".to_string(),
             producer_group: "mxsm".to_string(),
             prop,
-            create_time: SystemTime::now().duration_since(SystemTime::UNIX_EPOCH)
+            create_time: SystemTime::now()
+                .duration_since(SystemTime::UNIX_EPOCH)
                 .unwrap()
                 .as_millis() as i64,
         }
