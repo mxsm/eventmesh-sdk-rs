@@ -14,23 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use std::collections::HashMap;
-use std::process;
 use anyhow::Result;
 use eventmesh::config::EventMeshHttpClientConfig;
-use eventmesh::http::producer::{EventMeshHttpProducer};
+use eventmesh::http::producer::EventMeshHttpProducer;
 use eventmesh::model::eventmesh_message::EventMeshMessage;
+use std::collections::HashMap;
+use std::process;
 
 #[tokio::main]
 async fn main() -> Result<()> {
     let mut config = EventMeshHttpClientConfig::new();
-    config.env = String::from("env");
-    config.idc = String::from("idc");
-    config.sys = String::from("1234");
-    config.pid = process::id().to_string();
+    config
+        .env("env")
+        .idc("idc")
+        .sys("eventmesh")
+        .pid(process::id().to_string());
     let http_producer = EventMeshHttpProducer::new(config)?;
     let hash_map = HashMap::with_capacity(10);
-    let mut message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
+    let message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
     http_producer.publish(&message).await?;
     Ok(())
 }

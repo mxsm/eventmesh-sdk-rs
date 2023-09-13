@@ -15,25 +15,25 @@
  * limitations under the License.
  */
 
-#[derive(Debug,Clone)]
+#[derive(Debug, Clone)]
 pub struct EventMeshHttpClientConfig {
-    pub lite_event_mesh_addr: String,
-    pub load_balance_type: LoadBalanceType,
-    pub consume_thread_core: i32,
-    pub consume_thread_max: i32,
-    pub env: String,
-    pub consumer_group: String,
-    pub producer_group: String,
-    pub idc: String,
-    pub ip: String,
-    pub pid: String,
-    pub sys: String,
-    pub user_name: String,
-    pub password: String,
-    pub use_tls: bool,
-    pub ssl_client_protocol: String,
-    pub max_connection_pool_size: i32,
-    pub connection_idle_time_seconds: i32,
+    pub(crate) lite_event_mesh_addr: String,
+    pub(crate) load_balance_type: LoadBalanceType,
+    pub(crate) consume_thread_core: i32,
+    pub(crate) consume_thread_max: i32,
+    pub(crate) env: String,
+    pub(crate) consumer_group: String,
+    pub(crate) producer_group: String,
+    pub(crate) idc: String,
+    pub(crate) ip: String,
+    pub(crate) pid: String,
+    pub(crate) sys: String,
+    pub(crate) user_name: String,
+    pub(crate) password: String,
+    pub(crate) use_tls: bool,
+    pub(crate) ssl_client_protocol: String,
+    pub(crate) max_connection_pool_size: i32,
+    pub(crate) connection_idle_time_seconds: i32,
 }
 
 impl Default for EventMeshHttpClientConfig {
@@ -61,13 +61,52 @@ impl Default for EventMeshHttpClientConfig {
 }
 
 impl EventMeshHttpClientConfig {
-    pub fn new()-> Self{
+    pub fn new() -> Self {
         Self::default()
+    }
+
+    pub fn lite_event_mesh_addr(&mut self, event_mesh_addr: impl Into<String>) -> &mut Self {
+        self.lite_event_mesh_addr = event_mesh_addr.into();
+        self
+    }
+
+    pub fn env(&mut self, env: impl Into<String>) -> &mut Self {
+        self.env = env.into();
+        self
+    }
+
+    pub fn consumer_group(&mut self, consumer_group: impl Into<String>) -> &mut Self {
+        self.consumer_group = consumer_group.into();
+        self
+    }
+
+    pub fn producer_group(&mut self, producer_group: impl Into<String>) -> &mut Self {
+        self.producer_group = producer_group.into();
+        self
+    }
+
+    pub fn idc(&mut self, idc: impl Into<String>) -> &mut Self {
+        self.producer_group = idc.into();
+        self
+    }
+
+    pub fn ip(&mut self, ip: impl Into<String>) -> &mut Self {
+        self.ip = ip.into();
+        self
+    }
+
+    pub fn sys(&mut self, sys: impl Into<String>) -> &mut Self {
+        self.sys = sys.into();
+        self
+    }
+
+    pub fn pid(&mut self, pid: impl Into<String>) -> &mut Self {
+        self.pid = pid.into();
+        self
     }
 }
 
-
-#[derive(Debug,Clone)]
+#[derive(Debug, Clone)]
 pub enum LoadBalanceType {
-    RANDOM
+    RANDOM,
 }
