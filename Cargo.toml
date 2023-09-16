@@ -8,28 +8,21 @@ authors = [
 ]
 description = "Rust client for Apache EventMesh"
 license = "Apache-2.0"
-keywords = ["EventMesh", "SDK", "client"]
+keywords = ["EventMesh", "SDK", "rust-client","rust"]
 readme = "./README.md"
 
 [features]
-default = ["async"]
+default = []
+blocking = []
 async = []
 
 [dependencies]
-anyhow = "1.0"
-reqwest = { version = "0.11", features = ["json"] }
-tokio = { version = "1", features = ["full"] }
-hyper = { version = "1.0.0-rc.4", features = ["full"] }
-serde = { version = "1.0", features = ["derive"] }
-pretty_env_logger = " 0.5.0"
-http-body-util = "0.1.0-rc.3"
-bytes = "1.4.0"
-serde_json = "1.0.104"
-url = "2.4.0"
-http = "0.2.9"
-futures-util = { version = "0.3.28", default-features = false, features = ["alloc"] }
-thiserror = "1.0"
+anyhow = "1.0.75"
+thiserror = "1.0.48"
 
-[[example]]
-name = "http_produer"
-path = "examples/http_produer/producer.rs"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
+
+tokio = { version = "1.32.0", features = ["full"] }
+
+async-trait = "0.1"

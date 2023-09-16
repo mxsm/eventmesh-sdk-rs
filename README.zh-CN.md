@@ -25,7 +25,8 @@ Eventmesh sdk for rust
 
 #### HTTP模块
 
-- [ ] [WIP]HTTP客户端创建API
+- [ ] [WIP]EventMesh http生产者和消费者API
+- [ ] HTTP客户端创建API
 - [ ] HTTP发送消息API
 - [ ] HTTP客户端创建API实现
 - [ ] HTTP客户端发送消息实现

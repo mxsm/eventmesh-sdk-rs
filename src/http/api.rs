@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-mod error;
-mod http;
-mod module;
+#[cfg(feature = "blocking")]
+pub mod eventmesh_producer_blocking;
+
+mod eventmesh_consumer_blocking;
+#[cfg(feature = "async")]
+mod eventmesh_producer_async;

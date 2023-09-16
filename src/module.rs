@@ -16,3 +16,4 @@
  */
 
 pub mod eventmesh_message;
+pub mod subscription_item;

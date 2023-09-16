@@ -15,56 +15,19 @@
  * limitations under the License.
  */
 
-use std::error::Error;
-use std::fmt::{Debug, Display, Formatter};
-use thiserror;
+use std::fmt::{Display, Formatter};
+use thiserror::Error;
 
-#[derive(Debug, Eq, PartialEq, thiserror::Error)]
-pub enum ErrorType {
-    #[error("Http request error")]
-    HttpRequestError,
+#[derive(Debug, Error)]
+#[allow(dead_code)]
+enum EventMeshError {
+    ConfigError,
 
-    #[error("Json parse error")]
-    JsonParseError,
-
-    #[error("Event mesh handle error, code:{0}")]
-    EventMeshRespError(i32),
+    ConnectError,
 }
-
-#[derive(Debug)]
-pub struct EventMeshError {
-    pub(crate) error_type: Option<ErrorType>,
-    pub(crate) message: Option<String>,
-    pub(crate) source: Option<anyhow::Error>,
-}
-
-impl Default for EventMeshError {
-    fn default() -> Self {
-        Self {
-            error_type: None,
-            message: None,
-            source: None,
-        }
-    }
-}
-
-impl EventMeshError {}
-
-impl Error for EventMeshError {}
 
 impl Display for EventMeshError {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if let Some(err_type) = &self.error_type {
-            write!(f, "{}", err_type)?;
-        }
-
-        if let Some(message) = &self.message {
-            write!(f, " message = {}", message)?;
-        }
-
-        if let Some(source) = &self.source {
-            write!(f, " source = {source}")?;
-        }
-        Ok(())
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
     }
 }
