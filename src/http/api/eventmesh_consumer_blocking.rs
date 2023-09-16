@@ -14,6 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-mod error;
-mod http;
-mod module;
+
+use crate::module::subscription_item::SubscriptionItem;
+
+pub trait EventMeshConsumer<T: ?Sized> {
+    fn subscribe(
+        topic_vec: Vec<SubscriptionItem>,
+        subscribe_url: impl AsRef<str>,
+    ) -> anyhow::Result<()>;
+
+    fn unsubscribe(
+        topic_vec: Vec<SubscriptionItem>,
+        subscribe_url: impl AsRef<str>,
+    ) -> anyhow::Result<()>;
+}

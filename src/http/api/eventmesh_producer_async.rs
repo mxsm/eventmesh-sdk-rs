@@ -14,6 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-mod error;
-mod http;
-mod module;
+use async_trait::async_trait;
+
+#[async_trait]
+pub trait EventMeshProtocolProducer<T: ?Sized> {
+    async fn publish(&self, message: T) -> anyhow::Result<()>;
+
+    async fn request(&self, message: T, timeout: u32) -> anyhow::Result<T>;
+
+    async fn request_with_callback(
+        &self,
+        message: T,
+        timeout: u32,
+        rr_callback: impl Fn(Option<T>, Option<Box<anyhow::Error>>),
+    ) -> anyhow::Result<()>;
+}

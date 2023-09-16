@@ -14,24 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-use anyhow::Result;
-use eventmesh::config::EventMeshHttpClientConfig;
-use eventmesh::http::producer::EventMeshHttpProducer;
-use eventmesh::model::eventmesh_message::EventMeshMessage;
-use std::collections::HashMap;
-use std::process;
 
-#[tokio::main]
-async fn main() -> Result<()> {
-    let mut config = EventMeshHttpClientConfig::new();
-    config
-        .env("env")
-        .idc("idc")
-        .sys("eventmesh")
-        .pid(process::id().to_string());
-    let http_producer = EventMeshHttpProducer::new(config)?;
-    let hash_map = HashMap::with_capacity(10);
-    let message = EventMeshMessage::new("1", "1", "2", "2222", hash_map);
-    http_producer.publish(&message).await?;
-    Ok(())
+pub trait EventMeshProtocolProducer<T: ?Sized> {
+    fn publish(&self, message: T) -> anyhow::Result<()>;
+
+    fn request(&self, message: T, timeout: u32) -> anyhow::Result<T>;
+
+    fn request_with_callback(
+        &self,
+        message: T,
+        timeout: u32,
+        rr_callback: impl Fn(Option<T>, Option<Box<anyhow::Error>>),
+    ) -> anyhow::Result<()>;
 }
